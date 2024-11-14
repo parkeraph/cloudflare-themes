@@ -25,11 +25,11 @@
         <h3>{{ label }}</h3>
 
 
-        <Transition-Group name="segment-transition" tag="div" class="segment-control">
+        <div class="segment-control">
             <button v-for="(option, idx) in options" :key="option" class="segment" :class="{'active-segment': isActive(option)}" @click="toggleSegment(option)">
                 {{ option }}
             </button>
-        </Transition-Group>
+        </div>
 
     </div>
 </template>
