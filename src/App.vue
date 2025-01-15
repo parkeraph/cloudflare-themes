@@ -6,8 +6,10 @@ import { computed } from 'vue';
 
 const heroImage = computed(() => {
   const width = Math.floor(window.innerWidth * .60);
-  const height = Math.floor(window.innerHeight);
-  return `https://picsum.photos/${width}/${height}`
+
+  const imageWidth = width > 600 ? 900 : 600
+
+  return `https://www.parkeraph.com/cdn-cgi/image/width=${imageWidth}/trees.jpg` //`https://picsum.photos/${width}/${height}`
 })
 
 </script>
@@ -15,7 +17,6 @@ const heroImage = computed(() => {
 <template>
   <div class="control">
     <SegmentControl label="Toggle Theme" default-option="theme 1" :options="['theme 1', 'theme 2']"></SegmentControl>
-    <p>Theme images are provided by <a href="https://picsum.photos/">https://picsum.photos/</a></p>
   </div>
   <Hero class="hero" :image="heroImage"></Hero>
 </template>
@@ -39,5 +40,17 @@ const heroImage = computed(() => {
   .hero {
     height: 100vh;
     width: 60%;
+  }
+
+  @media (max-width: 600px) {
+    .control {
+      margin-top: 5rem;
+    }
+
+    .hero {
+    height: 100vh;
+    width: 100%;
+    height: 250px;
+  }
   }
 </style>
