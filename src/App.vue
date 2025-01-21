@@ -9,7 +9,7 @@ const heroImage = computed(() => {
 
   const imageWidth = width > 600 ? 900 : 600
 
-  return `https://www.parkeraph.com/cdn-cgi/image/width=${imageWidth}/trees.jpg` //`https://picsum.photos/${width}/${height}`
+  return `https://cdn.parkeraph.com/cdn-cgi/image/width=${imageWidth}/trees.jpg` //`https://picsum.photos/${width}/${height}`
 })
 
 </script>
