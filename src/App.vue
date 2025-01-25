@@ -2,12 +2,25 @@
 import { RouterLink, RouterView } from 'vue-router'
 import SegmentControl from './components/SegmentControl.vue'
 import Hero from './components/Hero.vue';
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import axios from 'axios';
+
+const themeConfig = ref({});
+
+onMounted(async () => {
+  const url = `https://kv-tutorial.parker-20a.workers.dev/?domain=${window.location.hostname}`
+  themeConfig.value = await axios.get(url);
+  console.log(themeConfig)
+})
 
 const heroImage = computed(() => {
+
   const width = Math.floor(window.innerWidth * .60);
 
   const imageWidth = width > 600 ? 900 : 600
+
+  //placeholder image for development env
+  if(process.env.NODE_ENV === "development") return `https://picsum.photos/${width}/${window.innerHeight}`
 
   return `https://cdn.parkeraph.com/cdn-cgi/image/width=${imageWidth}/trees.jpg` //`https://picsum.photos/${width}/${height}`
 })
@@ -15,14 +28,19 @@ const heroImage = computed(() => {
 </script>
 
 <template>
-  <div class="control">
-    <SegmentControl label="Toggle Theme" default-option="theme 1" :options="['theme 1', 'theme 2']"></SegmentControl>
+
+  <div class="content">
+    <div class="title">
+      <h1>Hampton Design</h1>
+      <h2>Welcome to my UX design portfolio!</h2>
+    </div>
+    <SegmentControl label="Theme" default-option="theme 1" :options="['theme 1', 'theme 2']"></SegmentControl>
   </div>
   <Hero class="hero" :image="heroImage"></Hero>
 </template>
 
 <style scoped>
-  .control {
+  .content {
     width: 70%;
     display: flex;
     padding-left: 4rem;
@@ -30,7 +48,12 @@ const heroImage = computed(() => {
     flex-direction: column;
     align-items: start;
     align-content: start;
-    gap: 1rem;
+    gap: 2rem;
+
+  }
+
+  h1, h2 {
+    margin: 0
   }
 
   p {

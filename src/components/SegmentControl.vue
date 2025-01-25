@@ -22,7 +22,7 @@
 
 <template>
     <div class="segment-control-wrapper">
-        <h3>{{ label }}</h3>
+        <h4>{{ label }}</h4>
 
 
         <div class="segment-control">
@@ -43,9 +43,10 @@
     .segment-control {
         display: flex;
         gap: .5rem;
-        border: solid 1px #e2dfdfd7;
+        border: solid 1px;
+        border-color: var(--color-border);
         padding: .1rem .1rem .1rem  .1rem;
-        border-radius: 8px;
+        border-radius: 7px;
         margin-top: .5rem;
         max-width: fit-content;
         font-weight: 500;
@@ -54,19 +55,19 @@
     .segment {
         background-color: transparent;
         border: none;
-        color: #EBEBEBA3;
+        color: var(--color-text);
         transition: all .5s ease;
-        border-radius: 5px;
+        border-radius: 4px;
     }
 
     .active-segment {
         color: black;
-        background-color: #e2dfdfd7;
+        background-color: var(--color-affordance);
 
     }
 
     .segment:hover {
-        background-color: #e2dfdf3f;
+        background-color: var(--color-affordance-50);
 
     }
 
