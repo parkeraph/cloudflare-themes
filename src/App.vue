@@ -12,7 +12,7 @@ onMounted(async () => {
   const hostnameParts = window.location.hostname.split('.');
   console.log(hostnameParts[1])
 
-  const url = `https://kv-tutorial.parker-20a.workers.dev/?domain=${hostnameParts[1]}`
+  const url = `api.parkeraph.com/?domain=${hostnameParts[1]}`
   themeConfig.value = await axios.get(url);
   console.log(themeConfig)
 })
