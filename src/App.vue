@@ -8,7 +8,11 @@ import axios from 'axios';
 const themeConfig = ref({});
 
 onMounted(async () => {
-  const url = `https://kv-tutorial.parker-20a.workers.dev/?domain=${window.location.hostname}`
+  console.log(window.location.hostname)
+  const hostnameParts = window.location.hostname.split('.');
+  console.log(hostnameParts[1])
+
+  const url = `https://kv-tutorial.parker-20a.workers.dev/?domain=${hostnameParts[1]}`
   themeConfig.value = await axios.get(url);
   console.log(themeConfig)
 })
