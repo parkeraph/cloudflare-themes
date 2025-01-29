@@ -13,8 +13,12 @@ onMounted(async () => {
   console.log(hostnameParts[1])
 
   const url = `https://api.parkeraph.com/?domain=${hostnameParts[1]}`
-  themeConfig.value = await axios.get(url);
-  console.log(themeConfig)
+  themeConfig.value = await axios.get(url,{
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+  console.log(themeConfig.value)
 })
 
 const heroImage = computed(() => {
