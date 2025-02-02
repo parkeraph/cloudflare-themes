@@ -59,16 +59,15 @@ const handleThemeSwitch = (option: string) => {
 
 watch(themeCssPath, (newValue, oldValue) => {
   const existingLink = document.querySelector(`link[href="${oldValue}"]`);
-  if(existingLink){
-    (existingLink as HTMLLinkElement).href = newValue;}
-  else{
+  if(existingLink)(existingLink as HTMLLinkElement).remove();
+  
+
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = newValue;
     link.type = 'text/css';
 
     document.head.appendChild(link);
-  }
 })
 
 </script>
