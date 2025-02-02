@@ -1,22 +1,30 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import SegmentControl from './components/SegmentControl.vue'
 import Hero from './components/Hero.vue';
 import { computed, onMounted, ref } from 'vue';
 import axios from 'axios';
+import type {IClientBranding} from './types/IClientBranding';
 
-const clientBranding = ref({});
-const currentTheme = ref("");
+const clientBranding = ref<IClientBranding>({
+  domain: '',
+  clientName: '',
+  headerText: '',
+  themes: []
+});
+
+const currentTheme = ref<string>('');
 const host = ref("")
+const isLoading = ref<boolean>(false);
 
 onMounted(async () => {
-  console.log(window.location.hostname)
+  isLoading.value = true;
+
   const hostnameParts = window.location.hostname.split('.');
   host.value = hostnameParts[1];
 
   const url = `https://vjmussqaurmxqnvuzsgo.supabase.co/functions/v1/client-service?domain=${host.value}`
 
-  let clientServiceResponse = await axios.get(url, {
+  let clientServiceResponse = await axios.get<IClientBranding>(url, {
         headers: {
             'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_KEY}`,
             'Content-Type': 'application/json',
@@ -24,7 +32,9 @@ onMounted(async () => {
     });
 
   clientBranding.value = clientServiceResponse.data;
-  currentTheme.value = clientBranding.value.themes[0];
+  currentTheme.value =  clientBranding.value.themes.length ? clientBranding.value.themes[0].toString() : '';
+
+  isLoading.value = false;
 })
 
 const heroImage = computed(() => {
@@ -47,16 +57,16 @@ const handleThemeSwitch = (option: String) => {
 
 <template>
 
-  <div class="content">
+  <div v-if="!isLoading" class="content">
 
     <div class="title">
-      <h1>{{clientBranding.client_name}}</h1>
-      <h2>{{clientBranding.header_text}}</h2>
+      <h1>{{clientBranding.clientName}}</h1>
+      <h2>{{clientBranding.headerText}}</h2>
     </div>
 
     <SegmentControl 
       label="Theme" 
-      :default-option="clientBranding.themes ? clientBranding.themes[0] : ''" 
+      :default-option="currentTheme" 
       :options="clientBranding.themes" 
       @change="handleThemeSwitch">
     </SegmentControl>

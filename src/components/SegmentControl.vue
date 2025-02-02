@@ -8,7 +8,6 @@
 
 
     onMounted(() => {
-
         if(options) selectedOption.value = options.indexOf(defaultOption);
     })
 
