@@ -49,8 +49,8 @@ const heroImage = computed(() => {
   return `https://cdn.${host.value}.com/cdn-cgi/image/width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg` 
 })
 
-const handleThemeSwitch = (option: String) => {
-  console.log("switch!", option)
+const handleThemeSwitch = (option: string) => {
+  currentTheme.value = option;
 }
 
 </script>
