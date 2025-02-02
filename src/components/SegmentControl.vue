@@ -4,10 +4,12 @@
     const selectedOption = ref<number>(0);
 
     const {options, defaultOption, label} = defineProps<{options: Array<string>, defaultOption: string, label: string}>();
-    //const emits = defineEmits<{change: [option: string]}>();
+    const emit = defineEmits();
+
 
     onMounted(() => {
-        selectedOption.value = options.indexOf(defaultOption);
+
+        if(options) selectedOption.value = options.indexOf(defaultOption);
     })
 
     const isActive = (option: string) => {
@@ -15,6 +17,7 @@
     }
 
     const toggleSegment = (option: string) => {
+        emit('change', option)
         return selectedOption.value = options.indexOf(option);
     };
 
