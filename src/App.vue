@@ -46,7 +46,7 @@ const heroImage = computed(() => {
   //placeholder image for development env
   //if(process.env.NODE_ENV === "development") return `https://picsum.photos/${width}/${window.innerHeight}`
 
-  return `https://cdn.parkeraph.com/cdn-cgi/image/width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg` 
+  return `https://cdn.${host.value}.com/cdn-cgi/image/width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg` 
 })
 
 const handleThemeSwitch = (option: String) => {
