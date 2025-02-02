@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SegmentControl from './components/SegmentControl.vue'
 import Hero from './components/Hero.vue';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import type {IClientBranding} from './types/IClientBranding';
 
@@ -13,8 +13,9 @@ const clientBranding = ref<IClientBranding>({
 });
 
 const currentTheme = ref<string>('');
-const host = ref("")
+const host = ref('')
 const isLoading = ref<boolean>(false);
+const themeCssPath = ref<string>('');
 
 onMounted(async () => {
   isLoading.value = true;
@@ -34,6 +35,8 @@ onMounted(async () => {
   clientBranding.value = clientServiceResponse.data;
   currentTheme.value =  clientBranding.value.themes.length ? clientBranding.value.themes[0].toString() : '';
 
+  themeCssPath.value = `https://cdn.hamptonux.com/${host.value}/${currentTheme.value}/theme.css`
+
   isLoading.value = false;
 })
 
@@ -51,7 +54,22 @@ const heroImage = computed(() => {
 
 const handleThemeSwitch = (option: string) => {
   currentTheme.value = option;
+
 }
+
+watch(themeCssPath, (newValue, oldValue) => {
+  const existingLink = document.querySelector(`link[href="${oldValue}"]`);
+  if(existingLink){
+    (existingLink as HTMLLinkElement).href = newValue;}
+  else{
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = newValue;
+    link.type = 'text/css';
+
+    document.head.appendChild(link);
+  }
+})
 
 </script>
 
