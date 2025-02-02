@@ -22,7 +22,7 @@ onMounted(async () => {
   const hostnameParts = window.location.hostname.split('.');
   host.value = hostnameParts[1];
 
-  const url = `https://vjmussqaurmxqnvuzsgo.supabase.co/functions/v1/client-service?domain=${host.value}`
+  const url = `https://vjmussqaurmxqnvuzsgo.supabase.co/functions/v1/client-service?domain=parkeraph`
 
   let clientServiceResponse = await axios.get<IClientBranding>(url, {
         headers: {

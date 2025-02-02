@@ -24,6 +24,7 @@ a,
   #app {
     flex-direction: column-reverse;
     justify-content: start;
+    gap: 2rem
   }
 
 }
