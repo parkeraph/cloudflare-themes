@@ -47,6 +47,7 @@ const heroImage = computed(() => {
   const imageWidth = width > 600 ? 900 : 600
 
   //placeholder image for development env
+  //@ts-ignore
   if(process.env.NODE_ENV === "development") return `https://pub-194f664d822f48139238d4445b80c7f8.r2.dev/parkeraph/${currentTheme.value}/header.jpg`
 
   return `https://cdn.${host.value}.com/cdn-cgi/image/width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg`
