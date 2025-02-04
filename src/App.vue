@@ -35,7 +35,7 @@ onMounted(async () => {
   clientBranding.value = clientServiceResponse.data;
   currentTheme.value =  clientBranding.value.themes ? clientBranding.value.themes[0].toString() : '';
 
-  themeCssPath.value = `https://cdn.hamptonux.com/${host.value}/${currentTheme.value}/theme.css`
+  themeCssPath.value = `https://cdn.${host.value}.com/${host.value}/${currentTheme.value}/theme.css`
 
   isLoading.value = false;
 })
