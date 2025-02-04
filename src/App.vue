@@ -42,15 +42,16 @@ onMounted(async () => {
 
 const heroImage = computed(() => {
 
-  const width = Math.floor(window.innerWidth * .60);
+  const width = window.innerWidth;
 
-  const imageWidth = width > 600 ? 900 : 600
+  const imageWidth = width > 600 ? 900 : 600;
+  const imageHeight = width > 600 ? window.innerHeight : 250;
 
   //placeholder image for development env
   //@ts-ignore
   if(process.env.NODE_ENV === "development") return `https://pub-194f664d822f48139238d4445b80c7f8.r2.dev/parkeraph/${currentTheme.value}/header.jpg`
 
-  return `https://cdn.${host.value}.com/cdn-cgi/image/width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg`
+  return `https://cdn.${host.value}.com/cdn-cgi/image/fit=crop,height=${imageHeight},width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg`
 })
 
 const handleThemeSwitch = (option: string) => {
