@@ -2,6 +2,7 @@
 import SegmentControl from './components/SegmentControl.vue'
 import Hero from './components/Hero.vue';
 import { computed, onMounted, ref, watch } from 'vue';
+import getHost from './utils/getHost'
 import axios from 'axios';
 import type {IClientBranding} from './types/IClientBranding';
 
@@ -20,12 +21,11 @@ const themeCssPath = ref<string>('');
 onMounted(async () => {
   isLoading.value = true;
 
-  const hostnameParts = window.location.hostname.split('.');
-  host.value = hostnameParts[1];
+  host.value = getHost()
 
   const url = `https://vjmussqaurmxqnvuzsgo.supabase.co/functions/v1/client-service?domain=${host.value}`
 
-  let clientServiceResponse = await axios.get<IClientBranding>(url, {
+  const clientServiceResponse = await axios.get<IClientBranding>(url, {
         headers: {
             'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_KEY}`,
             'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ onMounted(async () => {
     });
 
   clientBranding.value = clientServiceResponse.data;
-  currentTheme.value =  clientBranding.value.themes.length ? clientBranding.value.themes[0].toString() : '';
+  currentTheme.value =  clientBranding.value.themes ? clientBranding.value.themes[0].toString() : '';
 
   themeCssPath.value = `https://cdn.hamptonux.com/${host.value}/${currentTheme.value}/theme.css`
 
@@ -47,27 +47,29 @@ const heroImage = computed(() => {
   const imageWidth = width > 600 ? 900 : 600
 
   //placeholder image for development env
-  //if(process.env.NODE_ENV === "development") return `https://picsum.photos/${width}/${window.innerHeight}`
+  if(process.env.NODE_ENV === "development") return `https://pub-194f664d822f48139238d4445b80c7f8.r2.dev/parkeraph/${currentTheme.value}/header.jpg`
 
-  return `https://cdn.${host.value}.com/cdn-cgi/image/width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg` 
+  return `https://cdn.${host.value}.com/cdn-cgi/image/width=${imageWidth}/${host.value}/${currentTheme.value}/header.jpg`
 })
 
 const handleThemeSwitch = (option: string) => {
   currentTheme.value = option;
-
+  themeCssPath.value = `https://cdn.hamptonux.com/${host.value}/${currentTheme.value}/theme.css`
 }
 
 watch(themeCssPath, (newValue, oldValue) => {
   const existingLink = document.querySelector(`link[href="${oldValue}"]`);
+
+  console.log(existingLink)
+
   if(existingLink)(existingLink as HTMLLinkElement).remove();
-  
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = newValue;
-    link.type = 'text/css';
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = newValue;
+  link.type = 'text/css';
 
-    document.head.appendChild(link);
+  document.head.appendChild(link);
 })
 
 </script>
@@ -81,10 +83,10 @@ watch(themeCssPath, (newValue, oldValue) => {
       <h2>{{clientBranding.headerText}}</h2>
     </div>
 
-    <SegmentControl 
-      label="Theme" 
-      :default-option="currentTheme" 
-      :options="clientBranding.themes" 
+    <SegmentControl
+      label="Theme"
+      :default-option="currentTheme"
+      :options="clientBranding.themes"
       @change="handleThemeSwitch">
     </SegmentControl>
 
