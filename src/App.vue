@@ -56,7 +56,7 @@ const heroImage = computed(() => {
 
 const handleThemeSwitch = (option: string) => {
   currentTheme.value = option;
-  themeCssPath.value = `https://cdn.hamptonux.com/${host.value}/${currentTheme.value}/theme.css`
+  themeCssPath.value = `https://cdn.${host.value}.com/${host.value}/${currentTheme.value}/theme.css`
 }
 
 watch(themeCssPath, (newValue, oldValue) => {
